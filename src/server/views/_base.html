@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="IG Photo Slideshow">
+    <title>IG Photos</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,700,800%7cCardo:400italic%7cMerriweather:400,300,300italic,400italic' rel='stylesheet' type='text/css'>
+    {% block css %}{% endblock %}
+
+    <!--
+    {% include "./partials/analytics.html" %}
+    -->
+  </head>
+  <body>
+    {% include "./partials/nav.html" %}
+    <div>
+      {% include "./partials/flash.html" %}
+      {% block content %}
+      {% endblock %}
+      {% include "./partials/footer.html" %}
+    </div>
+    <script async type="module" src="assets/js/main.js"></script>
+    {% block js %}{% endblock %}
+  </body>
+</html>

@@ -1,0 +1,11 @@
+<section class="images-list">
+	<div class="container">
+		<ul>
+		  {% for image in images %}
+		    <li>
+		      <img data-face-data="{{image.data}}" class="images-list-image" src="{{image.src}}" alt="">
+		    </li>
+		  {% endfor %}
+		</ul>
+	</div>
+</section>

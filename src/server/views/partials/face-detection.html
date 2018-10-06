@@ -1,0 +1,21 @@
+<section class="images-list">
+	<div class="container">
+		<form action="" method="POST">
+			<input type="submit">
+
+			<br />
+
+			{% for image in images %}
+			  <input type="text" value="[]" name="{{image.instaID}}">
+			{% endfor %}
+		</form>
+		<ul>
+		  {% for image in images %}
+		    <li>
+		      <img
+		      	data-insta-id="{{image.instaID}}" class="images-list-image" src="{{image.src}}" alt="">
+		    </li>
+		  {% endfor %}
+		</ul>
+	</div>
+</section>
