@@ -90,9 +90,11 @@ function init(callback) {
 			diffThreshold: 0.3
 		}];
 
-		const audio = sampleAudioTracks[Math.floor(Math.random() * sampleAudioTracks.length)];
-
-		const response = await fetch(audio.url);  // prevdiffthreshold of 0.3 works well
+		const randomIndex = Math.floor(Math.random() * sampleAudioTracks.length);
+		const audio = sampleAudioTracks[randomIndex];
+		const audioURL = audio.url;
+		console.log(`Playing ${audioURL}`);
+		const response = await fetch(audioURL);  // prevdiffthreshold of 0.3 works well
 		const audioData = await response.arrayBuffer();
 
 		const buffer = await decodeAudioData({audioData, audioCtx});

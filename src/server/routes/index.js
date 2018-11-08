@@ -19,12 +19,6 @@ router.get('/', (req, res) => {
 	res.render('index', renderObject);
 });
 
-router.get('/audio-test', (req, res) => {
-	const renderObject = {};
-
-	res.render('audio-test', renderObject);
-});
-
 router.get('/face-slideshow', async (req, res) => {
 	const rawDetectedImages = await imageQueries.getDetectedImages({
 		offset: req.query.offset
