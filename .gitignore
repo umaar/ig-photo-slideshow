@@ -25,3 +25,5 @@ dist/
 *.mov
 config/default.json
 *.sqlite
+*.mp3
+*.m4a
