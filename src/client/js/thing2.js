@@ -6,7 +6,7 @@ import createCanvasAndContext from './modules/create-canvas-and-context.js';
 function init() {
 	const allImages = [...document.querySelectorAll('.images-list-image')];
 
-	for (let imageEl of allImages) {
+	for (const imageEl of allImages) {
 		const scale = 0.2;
 
 		const faces = JSON.parse(imageEl.dataset.faceData);

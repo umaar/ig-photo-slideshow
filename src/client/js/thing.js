@@ -17,7 +17,7 @@ async function init() {
 
 	const allImages = [...document.querySelectorAll('.images-list-image')];
 
-	for (let imageEl of allImages) {
+	for (const imageEl of allImages) {
 		const scale = 0.3;
 		const faces = await detectFaces({img: imageEl});
 		const eyeData = computeEyeData(faces);
@@ -57,7 +57,7 @@ async function init() {
 
 	const form = document.querySelector('form');
 	if (form.querySelector('input[type="text"]')) {
-		// console.log('All images recognised - submitting form!');
+		// Console.log('All images recognised - submitting form!');
 		// form.submit();
 	}
 }

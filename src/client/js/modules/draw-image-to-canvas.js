@@ -1,5 +1,4 @@
 function drawImageToCanvas({width, height, canvas, ctx, img, scale, rotation = 0, translationPoint = {}}) {
-
 	const translateX = translationPoint.x || 0;
 	const translateY = translationPoint.y || 0;
 

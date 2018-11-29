@@ -9,7 +9,7 @@ async function start() {
 	let directoryListing;
 
 	try {
-		directoryListing = fs.readdirSync(downloadDirectory)
+		directoryListing = fs.readdirSync(downloadDirectory);
 	} catch (err) {
 		console.log({err});
 		throw new Error('Error reading existing image directory');
@@ -18,8 +18,7 @@ async function start() {
 	const existingImageFileNames = directoryListing
 		.filter(file => file.endsWith('.jpg'));
 
-
-	for (let fileName of existingImageFileNames) {
+	for (const fileName of existingImageFileNames) {
 		const instaID = fileName.split('--')[0];
 
 		try {

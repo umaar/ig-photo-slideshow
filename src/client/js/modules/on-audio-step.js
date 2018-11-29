@@ -1,19 +1,19 @@
 // Thanks https://github.com/victordibia/beats/ !
 function findPeaks({pcmdata, samplerate, callback, prevdiffthreshold = 0.3}) {
-	var interval = 0.05 * 1000;
+	const interval = 0.05 * 1000;
 	let index = 0;
-	var step = Math.round(samplerate * (interval / 1000));
-	var max = 0;
-	var prevmax = 0;
-	//loop through song in time with sample rate
-	var samplesound = setInterval(function() {
+	const step = Math.round(samplerate * (interval / 1000));
+	let max = 0;
+	let prevmax = 0;
+	// Loop through song in time with sample rate
+	var samplesound = setInterval(() => {
 		if (index >= pcmdata.length) {
 			clearInterval(samplesound);
-			console.log('✅️ Finished sampling sound')
+			console.log('✅️ Finished sampling sound');
 			return;
 		}
 
-		for (var i = index; i < index + step; i++) {
+		for (let i = index; i < index + step; i++) {
 			max = pcmdata[i] > max ? pcmdata[i].toFixed(1) : max;
 		}
 
@@ -23,11 +23,11 @@ function findPeaks({pcmdata, samplerate, callback, prevdiffthreshold = 0.3}) {
 		let isPeak = false;
 
 		if (max - prevmax >= prevdiffthreshold) {
-			bars += ' == peak == '
+			bars += ' == peak == ';
 			isPeak = true;
 		}
 
-		callback({isPeak, bars, max})
+		callback({isPeak, bars, max});
 
 		prevmax = max;
 		max = 0;
@@ -38,8 +38,8 @@ function findPeaks({pcmdata, samplerate, callback, prevdiffthreshold = 0.3}) {
 function getbars(val) {
 	let bars = '';
 
-	for (var i = 0; i < val * 50 + 2; i++) {
-		bars = bars + '|';
+	for (let i = 0; i < val * 50 + 2; i++) {
+		bars += '|';
 	}
 
 	return bars;
@@ -53,9 +53,9 @@ async function decodeAudioData({audioCtx, audioData}) {
 
 function init(callback) {
 	if (!callback) {
-		throw new Error('No callback supplied to the on audio step module')
+		throw new Error('No callback supplied to the on audio step module');
 	}
-	var audioCtx = new window.AudioContext();
+	const audioCtx = new window.AudioContext();
 
 	async function getData() {
 		const sampleAudioTracks = [{
@@ -94,18 +94,18 @@ function init(callback) {
 		const audio = sampleAudioTracks[randomIndex];
 		const audioURL = audio.url;
 		console.log(`Playing ${audioURL}`);
-		const response = await fetch(audioURL);  // prevdiffthreshold of 0.3 works well
+		const response = await fetch(audioURL); // Prevdiffthreshold of 0.3 works well
 		const audioData = await response.arrayBuffer();
 
 		const buffer = await decodeAudioData({audioData, audioCtx});
 		const source = audioCtx.createBufferSource();
 
-		// source.loop = true;
+		// Source.loop = true;
 		source.buffer = buffer;
 		source.connect(audioCtx.destination);
 
-		let pcmdata = (buffer.getChannelData(0)) ;
-		let samplerate = buffer.sampleRate;
+		const pcmdata = (buffer.getChannelData(0));
+		const samplerate = buffer.sampleRate;
 
 		source.start();
 

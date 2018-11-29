@@ -61,10 +61,10 @@ function init() {
 			console.log(`${allImageEls.length} images left. Fetching more @ ${url}`);
 
 			fetch(url).then(response => response.text()).then(text => {
-				const el = document.createElement( 'html' );
+				const el = document.createElement('html');
 				el.innerHTML = text;
 				const newImages = [...el.querySelectorAll('.images-list-image')];
-				for (let newImage of newImages) {
+				for (const newImage of newImages) {
 					const li = document.createElement('li');
 					li.appendChild(newImage);
 					document.querySelector('.images-list ul').appendChild(li);
@@ -73,10 +73,12 @@ function init() {
 				runningTotal += newImages.length;
 				isThereAPendingRequest = false;
 			});
-			// isThereAPendingRequest = false;
+			// IsThereAPendingRequest = false;
 		}
 
-		if (!imageEl) return;
+		if (!imageEl) {
+			return;
+		}
 
 		const faces = JSON.parse(imageEl.dataset.faceData);
 
@@ -92,11 +94,11 @@ function init() {
 			return;
 		}
 
-		let translateX = 0;
-		let translateY = 0;
+		const translateX = 0;
+		const translateY = 0;
 
-		const imagePositionX = canvasWidth / 2 - (eyeData.leftEye.x * scaleFactorForImage ) ;
-		const imagePositionY = canvasHeight / 2 - (eyeData.leftEye.y * scaleFactorForImage ) ;
+		const imagePositionX = canvasWidth / 2 - (eyeData.leftEye.x * scaleFactorForImage);
+		const imagePositionY = canvasHeight / 2 - (eyeData.leftEye.y * scaleFactorForImage);
 		ctx.save();
 
 		ctx.translate(canvasWidth / 2, canvasHeight / 2);
@@ -120,28 +122,25 @@ function init() {
 
 	draw();
 
-	let latestImageTimestamp = +new Date();
+	let latestImageTimestamp = Number(new Date());
 	let minTimeGapBetweenImages = 60;
 
 	onAudioStep(({isPeak, bars, max}) => {
-		let currentTime = +new Date();
-		const timeElapsed = currentTime - latestImageTimestamp ;
+		const currentTime = Number(new Date());
+		const timeElapsed = currentTime - latestImageTimestamp;
 
 		if (isPeak) {
-			// if (timeElapsed > minTimeGapBetweenImages) {
-				minTimeGapBetweenImages = 250;
-				latestImageTimestamp = currentTime;
-				draw();
+			// If (timeElapsed > minTimeGapBetweenImages) {
+			minTimeGapBetweenImages = 250;
+			latestImageTimestamp = currentTime;
+			draw();
 			// } else {
 			// 	console.log('Peak too soon, skipping');
 			// }
-		} else {
-
-			if (timeElapsed > minTimeGapBetweenImages) {
-				minTimeGapBetweenImages = 60;
-				latestImageTimestamp = currentTime;
-				draw();
-			}
+		} else if (timeElapsed > minTimeGapBetweenImages) {
+			minTimeGapBetweenImages = 60;
+			latestImageTimestamp = currentTime;
+			draw();
 		}
 	});
 }

@@ -7,9 +7,7 @@ const imageQueries = require('../db/queries/images');
 const router = express.Router();
 /* eslint-enable new-cap */
 
-
 const igStaticImageRootPath = config.get('ig-static-image-root-path');
-
 
 router.get('/', (req, res) => {
 	const renderObject = {
@@ -28,7 +26,7 @@ router.get('/face-slideshow', async (req, res) => {
 		return {
 			src: `${igStaticImageRootPath}/${row.image_id}`,
 			data: row.raw_data
-		}
+		};
 	});
 
 	const renderObject = {
@@ -46,7 +44,7 @@ router.get('/view-detected-faces', async (req, res) => {
 		return {
 			src: `${igStaticImageRootPath}/${row.image_id}`,
 			data: row.raw_data
-		}
+		};
 	});
 
 	const renderObject = {
@@ -68,7 +66,7 @@ router.get('/perform-face-detection', async (req, res) => {
 		return {
 			src: `${igStaticImageRootPath}/${row.image_id}`,
 			instaID: row.insta_id
-		}
+		};
 	});
 
 	const renderObject = {
@@ -85,7 +83,7 @@ router.get('/perform-face-detection', async (req, res) => {
 router.post('/perform-face-detection', async (req, res) => {
 	const formBody = req.body;
 
-	for (let [instaID, rawDetectionData] of Object.entries(formBody)) {
+	for (const [instaID, rawDetectionData] of Object.entries(formBody)) {
 		const detectionData = JSON.parse(rawDetectionData);
 
 		if (detectionData.length) {
@@ -96,7 +94,6 @@ router.post('/perform-face-detection', async (req, res) => {
 			await imageQueries.markImageAsIgnored(instaID);
 		}
 	}
-
 
 	res.redirect('/perform-face-detection');
 });

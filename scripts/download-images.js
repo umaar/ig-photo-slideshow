@@ -8,8 +8,8 @@ const downloadDirectory = config.get('downloadsDirectory');
 const providerURLFirstParts = config.get('providerURL').join('');
 const pagesToScroll = 2;
 
-const hashtag = `selfie`;
-const IGFeedURL = `${providerURLFirstParts}ram.com/explore/tags/${hashtag}/`
+const hashtag = 'selfie';
+const IGFeedURL = `${providerURLFirstParts}ram.com/explore/tags/${hashtag}/`;
 
 console.log(`Using URL: ${IGFeedURL}`);
 
@@ -19,14 +19,13 @@ function sleep(ms) {
 
 function getLargestIGImageData(arr) {
 	return arr.reduce((prev, cur, ind) => {
-		const previousDimensions = prev.config_height + prev.config_width
-		const currentDimensions = cur.config_height + cur.config_width
+		const previousDimensions = prev.config_height + prev.config_width;
+		const currentDimensions = cur.config_height + cur.config_width;
 
 		if (currentDimensions > previousDimensions) {
 			return cur;
-		} else {
-			return prev;
 		}
+		return prev;
 	}).src;
 }
 
@@ -37,7 +36,7 @@ async function start() {
 	let errorCount = 0;
 
 	try {
-		directoryListing = fs.readdirSync(downloadDirectory)
+		directoryListing = fs.readdirSync(downloadDirectory);
 	} catch (err) {
 		console.log({err});
 		throw new Error('Error reading existing image directory');
@@ -82,13 +81,13 @@ async function start() {
 
 		if (!currentPosts.length) {
 			await closeBrowser();
-			throw new Error(`Couldn't find posts by selector`)
+			throw new Error('Couldn\'t find posts by selector');
 		}
 
-		for (let el of currentPosts) {
+		for (const el of currentPosts) {
 			const href = await (await el.getProperty('href')).jsonValue();
 			const IGPostID = href.split('/')[4];
-			newIGPostIDs.add(IGPostID)
+			newIGPostIDs.add(IGPostID);
 		}
 
 		console.log(`Scrolling to page ${currentPage}. There are ${newIGPostIDs.size} posts so far`);
@@ -103,9 +102,9 @@ async function start() {
 
 	console.log(`Found a total of ${newIGPostIDs.size} posts`);
 
-	for (let IGPostID of newIGPostIDs) {
+	for (const IGPostID of newIGPostIDs) {
 		if (errorCount > 100) {
-			throw new Error(`There have been too many (${errorCount}) errors. Exiting.`)
+			throw new Error(`There have been too many (${errorCount}) errors. Exiting.`);
 		}
 		if (setOfExistingDownloadedImagesIDs.has(IGPostID)) {
 			console.log(`Skipping ${IGPostID} as it has already been downloaded`);
@@ -129,7 +128,7 @@ async function start() {
 		const APIRawResponse = response ? response.body : null;
 
 		if (!APIRawResponse) {
-			throw new Error(`Couldn't fetch response body`);
+			throw new Error('Couldn\'t fetch response body');
 		}
 
 		const IGPostData = APIRawResponse.graphql.shortcode_media.display_resources;
@@ -144,9 +143,9 @@ async function start() {
 				encoding: null
 			});
 
-			fs.writeFileSync(downloadLocation, downloadResponse.body, 'binary')
+			fs.writeFileSync(downloadLocation, downloadResponse.body, 'binary');
 		} catch (err) {
-			errorCount++
+			errorCount++;
 			console.log('Error downloading and writing image to disk', {err});
 			continue;
 		}

@@ -19,7 +19,7 @@ function drawFaces({ctx, faces, scale, eyeData}) {
 	ctx.rotate((eyeData.rotationDifference || 0) * Math.PI / 180);
 	ctx.translate(-translateX, -translateY);
 
-	for (let face of faces) {
+	for (const face of faces) {
 		const faceBoundingBox = face.boundingBox;
 
 		ctx.lineWidth = 2;
@@ -30,14 +30,14 @@ function drawFaces({ctx, faces, scale, eyeData}) {
 			Math.floor(faceBoundingBox.width * scale),
 			Math.floor(faceBoundingBox.height * scale)
 		);
-		for (let landmarks of face.landmarks) {
+		for (const landmarks of face.landmarks) {
 			const landmarkType = landmarks.type;
 			const locations = landmarks.locations;
 			ctx.lineWidth = 2;
 			ctx.strokeStyle = getLandmarkColour(landmarkType);
 
 			let locationIndex = 0;
-			for (let location of locations) {
+			for (const location of locations) {
 				// TODO: Use eyeData coming in to determine if this location matches the first eye points(s) we received in the drawFaces() function
 				if (locationIndex === 0 && landmarkType === 'eye') {
 					ctx.strokeStyle = getLandmarkColour('first-eye-point');
@@ -54,6 +54,5 @@ function drawFaces({ctx, faces, scale, eyeData}) {
 
 	ctx.restore();
 }
-
 
 export default drawFaces;
