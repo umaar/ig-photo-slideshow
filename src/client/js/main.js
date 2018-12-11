@@ -1,18 +1,18 @@
-import thing from './thing.js';
-import thing2 from './thing2.js';
-import thing3 from './thing3.js';
+import performFaceDetection from './perform-face-detection.js';
+import viewDetectedFaces from './view-detected-faces.js';
+import faceSlideshow from './face-slideshow.js';
 
 function init() {
 	if (location.pathname === '/perform-face-detection') {
-		thing();
+		performFaceDetection();
 	}
 
 	if (location.pathname === '/view-detected-faces') {
-		thing2();
+		viewDetectedFaces();
 	}
 
 	if (location.pathname === '/face-slideshow') {
-		thing3();
+		faceSlideshow();
 	}
 }
 

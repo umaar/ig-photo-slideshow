@@ -40,10 +40,10 @@ function init() {
 		desiredFaceWidth += faceDirectionChange;
 		desiredFaceHeight += faceDirectionChange;
 
-		if (desiredFaceWidth === 50) {
+		if (desiredFaceWidth === canvasWidth * 0.05) {
 			faceDirectionChange = 10;
 			console.log('Too small!');
-		} else if (desiredFaceWidth === 550) {
+		} else if (desiredFaceWidth === canvasWidth) {
 			faceDirectionChange = -10;
 			console.log('Too big!');
 		}

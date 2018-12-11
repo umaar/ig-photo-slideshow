@@ -55,10 +55,15 @@ async function init() {
 		});
 	}
 
+	const shouldAutomaticallySubmitImages = false;
+
 	const form = document.querySelector('form');
-	if (form.querySelector('input[type="text"]')) {
-		// Console.log('All images recognised - submitting form!');
-		// form.submit();
+
+	if (shouldAutomaticallySubmitImages && form.querySelector('input[type="text"]')) {
+		console.log('✅️ Images have been recognised. Submitting...');
+		form.submit();
+	} else {
+		console.log('Images are set to ⚠️ Not ⚠️ automatically submit');
 	}
 }
 
