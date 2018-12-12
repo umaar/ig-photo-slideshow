@@ -27,7 +27,7 @@ async function start() {
 			});
 
 			if (result) {
-				console.log('Existing image record found, skipping');
+				console.log(`Existing image record found, skipping ${instaID}`);
 				continue;
 			}
 		} catch (err) {

@@ -6,7 +6,7 @@ const config = require('config');
 
 const downloadDirectory = config.get('downloadsDirectory');
 const providerURLFirstParts = config.get('providerURL').join('');
-const pagesToScroll = 2;
+const pagesToScrollDuringDownloading = config.get('pagesToScrollDuringDownloading');
 
 const hashtag = 'selfie';
 const IGFeedURL = `${providerURLFirstParts}ram.com/explore/tags/${hashtag}/`;
@@ -75,7 +75,7 @@ async function start() {
 
 	await page.goto(IGFeedURL);
 
-	for (let currentPage = 0; currentPage < pagesToScroll; currentPage++) {
+	for (let currentPage = 0; currentPage < pagesToScrollDuringDownloading; currentPage++) {
 		// Do this on each 'page' of the inifite scroll as IG appears to hide some posts when out the viewport
 		const currentPosts = await page.$$('[href*="/p/"]');
 
@@ -136,7 +136,7 @@ async function start() {
 		const postImageURL = getLargestIGImageData(IGPostData);
 
 		const downloadLocation = `${downloadDirectory}/${IGPostID}--${path.basename(postImageURL)}`;
-		console.log(`Downloading ${postImageURL} to ${downloadLocation} (${++downloadedImageCount})`);
+		console.log(`Downloading ${postImageURL} to ${downloadLocation} (${++downloadedImageCount}/${newIGPostIDs.size})`);
 
 		try {
 			const downloadResponse = await got(postImageURL, {
@@ -146,12 +146,12 @@ async function start() {
 			fs.writeFileSync(downloadLocation, downloadResponse.body, 'binary');
 		} catch (err) {
 			errorCount++;
-			console.log('Error downloading and writing image to disk', {err});
+			console.log('Error downloading and writing image to disk', {err}, '\n');
 			continue;
 		}
 	}
 
-	console.log(`Finished downloading images. There were ${errorCount} errors. Exiting...`);
+	console.log(`\nFinished downloading images. There were ${errorCount} errors. Exiting...`);
 
 	await sleep(2000);
 }
