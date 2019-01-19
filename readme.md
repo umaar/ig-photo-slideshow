@@ -1,5 +1,5 @@
 
-### IG Photo Viewer
+## IG Photo Viewer
 
 This project downloads images, and then creates an audio-reactive slideshow from them.
 
@@ -45,6 +45,13 @@ npm start
 # open in browser
 http://localhost:3000/perform-face-detection
 ```
+
+### Optional: Add music
+
+You can add music to your copy of this repo to see face changes according to beats in the music.
+
+- Audio should live in `src/client/audio`
+- Update the `on-audio-step.js` file to reference your newly added audio tracks
 
 #### Optional: Rename files which include query strings
 

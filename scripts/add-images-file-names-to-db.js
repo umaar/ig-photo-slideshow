@@ -18,6 +18,10 @@ async function start() {
 	const existingImageFileNames = directoryListing
 		.filter(file => file.endsWith('.jpg'));
 
+	console.log(`There are ${existingImageFileNames.length} image files in ${downloadDirectory}`);
+
+	let insertedRecordsCount = 0;
+
 	for (const fileName of existingImageFileNames) {
 		const instaID = fileName.split('--')[0];
 
@@ -27,11 +31,10 @@ async function start() {
 			});
 
 			if (result) {
-				console.log(`Existing image record found, skipping ${instaID}`);
 				continue;
 			}
 		} catch (err) {
-			console.log(err);
+			console.log('Error:\n', err);
 			process.exit(1);
 		}
 
@@ -41,11 +44,15 @@ async function start() {
 				hashtag: 'selfie',
 				instaID
 			});
+
+			insertedRecordsCount++;
 		} catch (err) {
 			console.log(err);
 			process.exit(1);
 		}
 	}
+
+	console.log(`Inserted ${insertedRecordsCount} records into the database`);
 }
 
 start().then(() => {

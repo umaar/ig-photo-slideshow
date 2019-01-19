@@ -11,7 +11,7 @@ const igStaticImageRootPath = config.get('ig-static-image-root-path');
 
 router.get('/', (req, res) => {
 	const renderObject = {
-		text: 'hello from server!'
+		text: 'Use the navigation'
 	};
 
 	res.render('index', renderObject);
