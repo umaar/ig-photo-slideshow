@@ -3,6 +3,7 @@ const fs = require('fs');
 const got = require('got');
 const puppeteer = require('puppeteer');
 const config = require('config');
+const URL = require('url');
 
 const downloadDirectory = config.get('downloadsDirectory');
 const providerURLFirstParts = config.get('providerURL').join('');
@@ -18,7 +19,7 @@ function sleep(ms) {
 }
 
 function getLargestIGImageData(arr) {
-	return arr.reduce((prev, cur, ind) => {
+	const url = arr.reduce((prev, cur, ind) => {
 		const previousDimensions = prev.config_height + prev.config_width;
 		const currentDimensions = cur.config_height + cur.config_width;
 
@@ -27,6 +28,8 @@ function getLargestIGImageData(arr) {
 		}
 		return prev;
 	}).src;
+
+	return url;
 }
 
 async function start() {
@@ -64,9 +67,9 @@ async function start() {
 	await page.setRequestInterception(true);
 
 	page.on('request', request => {
-		const url = request.url();
+		const {pathname} = URL.parse(request.url());
 		// No need to waste bandwidth and download images
-		if (url.endsWith('.jpg')) {
+		if (pathname.endsWith('.jpg')) {
 			request.abort();
 		} else {
 			request.continue();
@@ -135,9 +138,10 @@ async function start() {
 
 		const postImageURL = getLargestIGImageData(IGPostData);
 
-		const downloadLocation = `${downloadDirectory}/${IGPostID}--${path.basename(postImageURL)}`;
+		const downloadLocation = `${downloadDirectory}/${IGPostID}--${path.basename(postImageURL.split('?')[0])}`;
 		console.log(`Downloading ${postImageURL} to ${downloadLocation} (${++downloadedImageCount}/${newIGPostIDs.size})`);
 
+		console.log(`\n${downloadLocation}\n`);
 		try {
 			const downloadResponse = await got(postImageURL, {
 				encoding: null
@@ -152,8 +156,6 @@ async function start() {
 	}
 
 	console.log(`\nFinished downloading images. There were ${errorCount} errors. Exiting...`);
-
-	await sleep(2000);
 }
 
 start();

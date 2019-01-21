@@ -18,6 +18,7 @@ function drawCrosshair({ctx, canvasWidth, canvasHeight}) {
 }
 
 function init() {
+	let runningImageCount = 0;
 	let desiredFaceWidth = 300;
 	let desiredFaceHeight = 300;
 	let faceDirectionChange = -1;
@@ -34,7 +35,11 @@ function init() {
 	let runningTotal = document.querySelectorAll('.images-list-image').length;
 	canvas.classList.add('slideshow-primary-canvas');
 
+	const imageCountEl = document.createElement('p');
+	imageCountEl.innerHTML = `You've seen <span>${runningImageCount}</span> faces`;
+
 	document.querySelector('.images-list .container').prepend(canvas);
+	document.querySelector('.images-list .container').prepend(imageCountEl);
 
 	function draw() {
 		desiredFaceWidth += faceDirectionChange;
@@ -118,6 +123,7 @@ function init() {
 		drawCrosshair({ctx, canvasWidth, canvasHeight});
 
 		imageEl.parentElement.remove();
+		imageCountEl.querySelector('span').innerText = runningImageCount++;
 	}
 
 	draw();
