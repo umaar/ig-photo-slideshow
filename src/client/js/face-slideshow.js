@@ -71,8 +71,8 @@ function init() {
 				const newImages = [...el.querySelectorAll('.images-list-image')];
 				for (const newImage of newImages) {
 					const li = document.createElement('li');
-					li.appendChild(newImage);
-					document.querySelector('.images-list ul').appendChild(li);
+					li.append(newImage);
+					document.querySelector('.images-list ul').append(li);
 				}
 
 				runningTotal += newImages.length;

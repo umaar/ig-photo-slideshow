@@ -55,6 +55,7 @@ function init(callback) {
 	if (!callback) {
 		throw new Error('No callback supplied to the on audio step module');
 	}
+
 	const audioCtx = new window.AudioContext();
 
 	async function getData() {

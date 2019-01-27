@@ -30,7 +30,7 @@ async function init() {
 			height
 		});
 
-		imageEl.parentElement.appendChild(canvas);
+		imageEl.parentElement.append(canvas);
 
 		drawImageToCanvas({
 			width,

@@ -1,9 +1,9 @@
 const path = require('path');
 const fs = require('fs');
+const URL = require('url');
 const got = require('got');
 const puppeteer = require('puppeteer');
 const config = require('config');
-const URL = require('url');
 
 const downloadDirectory = config.get('downloadsDirectory');
 const providerURLFirstParts = config.get('providerURL').join('');
@@ -26,6 +26,7 @@ function getLargestIGImageData(arr) {
 		if (currentDimensions > previousDimensions) {
 			return cur;
 		}
+
 		return prev;
 	}).src;
 
@@ -40,8 +41,8 @@ async function start() {
 
 	try {
 		directoryListing = fs.readdirSync(downloadDirectory);
-	} catch (err) {
-		console.log({err});
+	} catch (error) {
+		console.log({error});
 		throw new Error('Error reading existing image directory');
 	}
 
@@ -109,6 +110,7 @@ async function start() {
 		if (errorCount > 100) {
 			throw new Error(`There have been too many (${errorCount}) errors. Exiting.`);
 		}
+
 		if (setOfExistingDownloadedImagesIDs.has(IGPostID)) {
 			console.log(`Skipping ${IGPostID} as it has already been downloaded`);
 			continue;
@@ -122,9 +124,9 @@ async function start() {
 			response = await got(IGPostAPIURL, {
 				json: true
 			});
-		} catch (err) {
+		} catch (error) {
 			errorCount++;
-			console.log(`Error fetching IG JSON. Error count: ${errorCount}`, {err});
+			console.log(`Error fetching IG JSON. Error count: ${errorCount}`, {error});
 			continue;
 		}
 
@@ -148,9 +150,9 @@ async function start() {
 			});
 
 			fs.writeFileSync(downloadLocation, downloadResponse.body, 'binary');
-		} catch (err) {
+		} catch (error) {
 			errorCount++;
-			console.log('Error downloading and writing image to disk', {err}, '\n');
+			console.log('Error downloading and writing image to disk', {error}, '\n');
 			continue;
 		}
 	}

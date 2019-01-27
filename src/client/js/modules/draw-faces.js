@@ -44,6 +44,7 @@ function drawFaces({ctx, faces, scale, eyeData}) {
 				} else {
 					ctx.strokeStyle = getLandmarkColour(landmarkType);
 				}
+
 				ctx.beginPath();
 				ctx.arc(location.x * scale, location.y * scale, 2, 0, 2 * Math.PI);
 				ctx.stroke();

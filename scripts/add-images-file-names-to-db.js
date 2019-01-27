@@ -10,8 +10,8 @@ async function start() {
 
 	try {
 		directoryListing = fs.readdirSync(downloadDirectory);
-	} catch (err) {
-		console.log({err});
+	} catch (error) {
+		console.log({error});
 		throw new Error('Error reading existing image directory');
 	}
 
@@ -33,8 +33,8 @@ async function start() {
 			if (result) {
 				continue;
 			}
-		} catch (err) {
-			console.log('Error:\n', err);
+		} catch (error) {
+			console.log('Error:\n', error);
 			process.exit(1);
 		}
 
@@ -46,8 +46,8 @@ async function start() {
 			});
 
 			insertedRecordsCount++;
-		} catch (err) {
-			console.log(err);
+		} catch (error) {
+			console.log(error);
 			process.exit(1);
 		}
 	}
