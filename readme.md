@@ -3,6 +3,8 @@
 
 This project downloads images, and then creates an audio-reactive slideshow from them.
 
+![Face slideshow preview](slideshow-preview.gif)
+
 #### Inspiration
 
 This [YouTube Video](https://www.youtube.com/watch?v=XqwbqxzsA2g)
