@@ -5,6 +5,10 @@ This project downloads images, and then creates an audio-reactive slideshow from
 
 ![Face slideshow preview](slideshow-preview.gif)
 
+This project also performs face detection which is persisted to a local database.
+
+![Face detection](preview-detected-faces.png)
+
 #### Inspiration
 
 This [YouTube Video](https://www.youtube.com/watch?v=XqwbqxzsA2g)
