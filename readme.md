@@ -60,3 +60,15 @@ A bug in the image downloader scripts means some images are downloaded with quer
 ```sh
 ls | sed 's/\(.*\)\(?.*\)/mv \"&\" \"\1\"/' | bash
 ```
+
+#### Optional: Rename files to match the original naming structure
+
+```js
+fs.readdirSync('.').filter(file => file.includes('.png')).map(file => {
+    const nameWithoutExtension = file.split('.')[0]
+    return {
+        originalName: `${process.cwd()}/${file}`,
+        newName: `${process.cwd()}/ffhq-${nameWithoutExtension}--${nameWithoutExtension}.png`
+    }
+}).map(({originalName, newName}) => fs.renameSync(originalName, newName));
+```

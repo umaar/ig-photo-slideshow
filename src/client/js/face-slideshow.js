@@ -60,7 +60,8 @@ function init() {
 
 		if ((allImageEls.length < minimumImagesCount) && !isThereAPendingRequest) {
 			isThereAPendingRequest = true;
-			const query = new URLSearchParams();
+			const existingParams = new URLSearchParams(location.search)
+			const query = new URLSearchParams(location.search);
 			query.append('offset', runningTotal);
 			const url = `${location.origin}${location.pathname}?${query.toString()}`;
 			console.log(`${allImageEls.length} images left. Fetching more @ ${url}`);
