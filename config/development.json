@@ -1,5 +1,11 @@
 {
 	"environment": "development",
 	"port": "3000",
-	"downloadsDirectory": "/Users/umarhansa/Downloads/ig-hashtag-downloaded-images"
+	"downloadDirectories": [{
+		"path": "/Users/umarhansa/Downloads/ig-hashtag-downloaded-images",
+		"hashtag": "selfie"
+	}, {
+		"path": "/Users/umarhansa/Downloads/ffhq-dataset/images1024x1024",
+		"hashtag": "flickr-ffhq"
+	}]
 }

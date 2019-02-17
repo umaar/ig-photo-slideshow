@@ -3,22 +3,24 @@ const fs = require('fs');
 const config = require('config');
 const imageQueries = require('../src/server/db/queries/images');
 
-const downloadDirectory = config.get('downloadsDirectory');
+const downloadDirectories = config.get('downloadDirectories');
 
-async function start() {
+async function addImages({currentPath, hashtag}) {
 	let directoryListing;
 
 	try {
-		directoryListing = fs.readdirSync(downloadDirectory);
+		directoryListing = fs.readdirSync(currentPath);
 	} catch (error) {
 		console.log({error});
 		throw new Error('Error reading existing image directory');
 	}
 
 	const existingImageFileNames = directoryListing
-		.filter(file => file.endsWith('.jpg'));
+		.filter(file => {
+			return file.endsWith('.jpg') || file.endsWith('.png');
+		});
 
-	console.log(`There are ${existingImageFileNames.length} image files in ${downloadDirectory}`);
+	console.log(`There are ${existingImageFileNames.length} image files in ${currentPath}`);
 
 	let insertedRecordsCount = 0;
 
@@ -34,14 +36,14 @@ async function start() {
 				continue;
 			}
 		} catch (error) {
-			console.log('Error:\n', error);
+			console.log(`Error for ${currentPath}:\n`, error);
 			process.exit(1);
 		}
 
 		try {
 			await imageQueries.createImage({
 				imageID: fileName,
-				hashtag: 'selfie',
+				hashtag,
 				instaID
 			});
 
@@ -52,9 +54,17 @@ async function start() {
 		}
 	}
 
-	console.log(`Inserted ${insertedRecordsCount} records into the database`);
+	console.log(`Inserted ${insertedRecordsCount} records into the database for ${currentPath}`);
+}
+
+async function start() {
+	for (downloadDirectory of downloadDirectories) {
+		console.log('\n');
+		await addImages({currentPath: downloadDirectory.path, hashtag: downloadDirectory.hashtag});
+	}
 }
 
 start().then(() => {
+	console.log('\n\nAll done!');
 	process.exit();
 });
