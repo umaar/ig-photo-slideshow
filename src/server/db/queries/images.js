@@ -44,7 +44,7 @@ function addDetectionDataToImage({instaID, data}) {
 		.where('insta_id', instaID);
 }
 
-async function getDetectedImages({offset} = {}) {
+async function getDetectedImages({offset, hashtag = ''} = {}) {
 	const limit = 50;
 
 	if (offset) {
@@ -55,17 +55,18 @@ async function getDetectedImages({offset} = {}) {
 		return Math.floor(Math.random() * (max - min + 1) + min);
 	}
 
-	const numberOfDetectedImages = await getCountOfDetectedImages();
+	const numberOfDetectedImages = await getCountOfDetectedImages({hashtag});
 
 	const randomOffset = random(0, numberOfDetectedImages - limit);
 	const finalOffset = Number.isInteger(offset) ? offset : randomOffset;
 
-	console.log(`Getting detected images from offset: ${finalOffset}`);
+	console.log(`Getting detected images from offset: ${finalOffset}. hashtag = ${hashtag}`);
 
 	const result = await knex('images')
 		.whereNotNull('raw_data')
 		.andWhere({
-			should_ignore: null
+			should_ignore: null,
+			hashtag
 		})
 		.offset(finalOffset)
 		.limit(limit);
@@ -83,11 +84,12 @@ async function getCountOfPendingImagesToBeDetected() {
 	return Object.values(result[0])[0];
 }
 
-async function getCountOfDetectedImages() {
+async function getCountOfDetectedImages({hashtag} = {}) {
 	const result = await knex('images')
 		.whereNotNull('raw_data')
 		.andWhere({
-			should_ignore: null
+			should_ignore: null,
+			hashtag: hashtag || ''
 		}).count('id');
 
 	return Object.values(result[0])[0];

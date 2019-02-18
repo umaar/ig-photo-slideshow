@@ -47,8 +47,14 @@
 		// 	maxAge: '1y'
 		// }));
 
-		const downloadsDirectory = config.get('downloadsDirectory');
+		const downloadsDirectories = config.get('downloadDirectories');
 		const igStaticImageRootPath = config.get('ig-static-image-root-path');
-		app.use(igStaticImageRootPath, express.static(downloadsDirectory));
+
+		for (const downloadDirectory of downloadsDirectories) {
+			const urlPath = `${igStaticImageRootPath}/${downloadDirectory.hashtag}`;
+			console.log('adding: ', urlPath);
+			app.use(urlPath, express.static(downloadDirectory.path));
+		}
+
 	};
 })(module.exports);

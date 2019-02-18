@@ -18,13 +18,15 @@ router.get('/', (req, res) => {
 });
 
 router.get('/face-slideshow', async (req, res) => {
+	const hashtag = req.query.hashtag;
 	const rawDetectedImages = await imageQueries.getDetectedImages({
-		offset: req.query.offset
+		offset: req.query.offset,
+		hashtag
 	});
 
 	const detectedImages = rawDetectedImages.map(row => {
 		return {
-			src: `${igStaticImageRootPath}/${row.image_id}`,
+			src: `${igStaticImageRootPath}/${row.hashtag}/${row.image_id}`,
 			data: row.raw_data
 		};
 	});
@@ -37,12 +39,13 @@ router.get('/face-slideshow', async (req, res) => {
 });
 
 router.get('/view-detected-faces', async (req, res) => {
-	const rawDetectedImages = await imageQueries.getDetectedImages();
-	const numberOfDetectedImages = await imageQueries.getCountOfDetectedImages();
+	const hashtag = req.query.hashtag;
+	const rawDetectedImages = await imageQueries.getDetectedImages({hashtag});
+	const numberOfDetectedImages = await imageQueries.getCountOfDetectedImages({hashtag});
 
 	const detectedImages = rawDetectedImages.map(row => {
 		return {
-			src: `${igStaticImageRootPath}/${row.image_id}`,
+			src: `${igStaticImageRootPath}/${row.hashtag}/${row.image_id}`,
 			data: row.raw_data
 		};
 	});
@@ -64,7 +67,7 @@ router.get('/perform-face-detection', async (req, res) => {
 
 	const imagesToBeDetected = rawImagesToBeDetected.map(row => {
 		return {
-			src: `${igStaticImageRootPath}/${row.image_id}`,
+			src: `${igStaticImageRootPath}/${row.hashtag}/${row.image_id}`,
 			instaID: row.insta_id
 		};
 	});

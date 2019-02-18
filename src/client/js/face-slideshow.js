@@ -18,6 +18,7 @@ function drawCrosshair({ctx, canvasWidth, canvasHeight}) {
 }
 
 function init() {
+	let finished = false;
 	let runningImageCount = 0;
 	let desiredFaceWidth = 300;
 	let desiredFaceHeight = 300;
@@ -42,6 +43,10 @@ function init() {
 	document.querySelector('.images-list .container').prepend(imageCountEl);
 
 	function draw() {
+		if (finished) {
+			return;
+		}
+
 		desiredFaceWidth += faceDirectionChange;
 		desiredFaceHeight += faceDirectionChange;
 
@@ -70,6 +75,11 @@ function init() {
 				const el = document.createElement('html');
 				el.innerHTML = text;
 				const newImages = [...el.querySelectorAll('.images-list-image')];
+				if (newImages.length === 0) {
+					console.log('There are no images remaining');
+					finished = true;
+					return;
+				}
 				for (const newImage of newImages) {
 					const li = document.createElement('li');
 					li.append(newImage);
@@ -130,7 +140,7 @@ function init() {
 	draw();
 
 	let latestImageTimestamp = Number(new Date());
-	let minTimeGapBetweenImages = 60;
+	let minTimeGapBetweenImages = 150;
 
 	onAudioStep(({isPeak, bars, max}) => {
 		const currentTime = Number(new Date());
@@ -145,7 +155,7 @@ function init() {
 			// 	console.log('Peak too soon, skipping');
 			// }
 		} else if (timeElapsed > minTimeGapBetweenImages) {
-			minTimeGapBetweenImages = 60;
+			minTimeGapBetweenImages = 150;
 			latestImageTimestamp = currentTime;
 			draw();
 		}
