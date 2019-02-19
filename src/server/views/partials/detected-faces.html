@@ -1,6 +1,10 @@
 <section class="images-list">
 	<div class="container">
 		<ul>
+			<li><a href="?hashtag=selfie">Selfie</a></li>
+			<li><a href="?hashtag=flickr-ffhq">Flickr</a></li>
+		</ul>
+		<ul>
 		  {% for image in images %}
 		    <li>
 		      <img data-face-data="{{image.data}}" class="images-list-image" src="{{image.src}}" alt="">
