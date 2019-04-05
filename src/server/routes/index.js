@@ -3,9 +3,7 @@ const config = require('config');
 
 const imageQueries = require('../db/queries/images');
 
-/* eslint-disable new-cap */
 const router = express.Router();
-/* eslint-enable new-cap */
 
 const igStaticImageRootPath = config.get('ig-static-image-root-path');
 

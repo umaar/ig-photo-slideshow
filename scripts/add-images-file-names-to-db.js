@@ -5,20 +5,20 @@ const imageQueries = require('../src/server/db/queries/images');
 
 const downloadDirectories = config.get('downloadDirectories');
 
+function isImageFile(file) {
+	return file.endsWith('.jpg') || file.endsWith('.png');
+}
+
 async function addImages({currentPath, hashtag}) {
 	let directoryListing;
 
 	try {
 		directoryListing = fs.readdirSync(currentPath);
 	} catch (error) {
-		console.log({error});
-		throw new Error('Error reading existing image directory');
+		throw new Error(`Error reading existing image directory (${currentPath}):\n`, error);
 	}
 
-	const existingImageFileNames = directoryListing
-		.filter(file => {
-			return file.endsWith('.jpg') || file.endsWith('.png');
-		});
+	const existingImageFileNames = directoryListing.filter(isImageFile);
 
 	console.log(`There are ${existingImageFileNames.length} image files in ${currentPath}`);
 
