@@ -5,7 +5,7 @@ const got = require('got');
 const puppeteer = require('puppeteer');
 const config = require('config');
 
-const downloadDirectory = config.get('downloadsDirectory');
+const downloadDirectory = config.get('downloadDirectories')[0].path;
 const providerURLFirstParts = config.get('providerURL').join('');
 const pagesToScrollDuringDownloading = config.get('pagesToScrollDuringDownloading');
 

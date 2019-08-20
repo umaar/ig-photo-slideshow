@@ -60,7 +60,11 @@ async function addImages({currentPath, hashtag}) {
 async function start() {
 	for (downloadDirectory of downloadDirectories) {
 		console.log('\n');
-		await addImages({currentPath: downloadDirectory.path, hashtag: downloadDirectory.hashtag});
+
+		await addImages({
+			currentPath: downloadDirectory.path,
+			hashtag: downloadDirectory.hashtag
+		});
 	}
 }
 
