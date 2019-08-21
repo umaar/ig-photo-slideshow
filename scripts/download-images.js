@@ -42,8 +42,8 @@ async function start() {
 	try {
 		directoryListing = fs.readdirSync(downloadDirectory);
 	} catch (error) {
-		console.log({error});
 		throw new Error('Error reading existing image directory');
+		console.log({error}, '\n');
 	}
 
 	const existingImageFileNames = directoryListing
@@ -69,8 +69,8 @@ async function start() {
 
 	page.on('request', request => {
 		const {pathname} = URL.parse(request.url());
-		// No need to waste bandwidth and download images
 		if (pathname.endsWith('.jpg')) {
+			// No need to waste bandwidth and download images at this point
 			request.abort();
 		} else {
 			request.continue();
@@ -81,22 +81,23 @@ async function start() {
 
 	for (let currentPage = 0; currentPage < pagesToScrollDuringDownloading; currentPage++) {
 		// Do this on each 'page' of the inifite scroll as IG appears to hide some posts when out the viewport
-		const currentPosts = await page.$$('[href*="/p/"]');
+		const postsSelector = '[href*="/p/"]';
+		const currentPosts = await page.$$(postsSelector);
 
 		if (!currentPosts.length) {
 			await closeBrowser();
-			throw new Error('Couldn\'t find posts by selector');
+			throw new Error(`Couldn't find posts by selector ( ${postsSelector} )`);
 		}
 
-		for (const el of currentPosts) {
-			const href = await (await el.getProperty('href')).jsonValue();
+		for (const post of currentPosts) {
+			const href = await (await post.getProperty('href')).jsonValue();
 			const IGPostID = href.split('/')[4];
 			newIGPostIDs.add(IGPostID);
 		}
 
 		console.log(`Scrolling to page ${currentPage}. There are ${newIGPostIDs.size} posts so far`);
 
-		await sleep(500);
+		await sleep(600);
 		await page.evaluate(
 		  'window.scrollTo(0, document.body.scrollHeight)'
 		);
