@@ -1,6 +1,8 @@
 
 ## IG Photo Viewer
 
+A [chrome bug](https://bugs.chromium.org/p/chromium/issues/detail?id=914348) means chromium is better to use for now.
+
 This project downloads images, and then creates an audio-reactive slideshow from them.
 
 ![Face slideshow preview](slideshow-preview.gif)

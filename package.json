@@ -18,13 +18,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "config": "^3.2.2",
+    "config": "^3.2.4",
     "express": "^4.17.1",
     "express-rev": "^0.1.2",
     "got": "^9.6.0",
-    "knex": "^0.19.2",
+    "knex": "^0.20.2",
     "nunjucks": "^3.2.0",
-    "puppeteer": "^1.19.0",
+    "puppeteer": "^2.0.0",
     "sqlite3": "^4.1.0"
   }
 }
