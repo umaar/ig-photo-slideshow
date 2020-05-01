@@ -1,5 +1,5 @@
 {
-  "name": "ig-photo-viewer",
+  "name": "ig-photo-slideshow",
   "private": true,
   "version": "1.0.0",
   "description": "",
@@ -18,13 +18,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "config": "^3.2.4",
+    "config": "^3.3.1",
     "express": "^4.17.1",
     "express-rev": "^0.1.2",
-    "got": "^9.6.0",
-    "knex": "^0.20.2",
-    "nunjucks": "^3.2.0",
-    "puppeteer": "^2.0.0",
-    "sqlite3": "^4.1.0"
+    "got": "^11.0.2",
+    "knex": "^0.21.0",
+    "nunjucks": "^3.2.1",
+    "puppeteer": "^3.0.1",
+    "sqlite3": "^4.1.1"
   }
 }
