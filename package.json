@@ -22,7 +22,7 @@
     "express": "^4.17.1",
     "express-rev": "^0.1.2",
     "got": "^11.8.0",
-    "knex": "^0.21.9",
+    "knex": "^2.4.0",
     "nunjucks": "^3.2.2",
     "puppeteer": "^5.4.1",
     "sqlite3": "^5.0.0"
